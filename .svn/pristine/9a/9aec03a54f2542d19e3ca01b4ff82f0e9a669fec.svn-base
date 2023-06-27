@@ -1,0 +1,314 @@
+﻿using QuanLyQuanMi.DAO;
+using QuanLyQuanMi.DTO;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace QuanLyQuanMi
+{
+    public partial class fnhaphang : Form
+    {
+        BindingSource phieunhapList = new BindingSource();
+        BindingSource ctpnList = new BindingSource();
+        public fnhaphang()
+        {
+            InitializeComponent();
+            LoadListPhieuNhap();
+            phieunhap.DataSource = phieunhapList;
+            dataGridView2.DataSource = ctpnList;
+            int temp = PhieuNhapDAO.Instance.GetMaxId();
+            LoadList_CTPN(temp);
+            AddPhieuNhapBinding();
+            Add_CTPN_PhieuNhapBinding();
+            LoadEmployeesIntoCombobox(comboBox4);
+            LoadKhoIntoCombobox(comboBox3);
+            LoadDvtIntoCombobox(comboBox2);
+
+        }
+
+        private void fnhaphang_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        void LoadListPhieuNhap()  // Load danh sách phiếu nhập lên datagridview
+        {
+            phieunhapList.DataSource = PhieuNhapDAO.Instance.GetPhieuNhapList();
+        }
+
+        void LoadList_CTPN(int mapn)  // Load CTPN lên Datagridview
+        {
+            ctpnList.DataSource = CtpnDAO.Instance.Get_CTPN_List(mapn);
+        }
+
+        void AddPhieuNhapBinding()
+        {
+            textBox5.DataBindings.Add(new Binding("Text", phieunhap.DataSource,"mapn", true, DataSourceUpdateMode.Never));
+            dateTimePicker1.DataBindings.Add(new Binding("Value", phieunhap.DataSource, "ngaynhap", true, DataSourceUpdateMode.Never));
+            textBox1.DataBindings.Add(new Binding("Text", phieunhap.DataSource, "idnhanvien", true, DataSourceUpdateMode.Never));
+        }
+
+        void Add_CTPN_PhieuNhapBinding()
+        {
+            textBox4.DataBindings.Add(new Binding("Text", dataGridView2.DataSource, "id", true, DataSourceUpdateMode.Never));
+            comboBox2.DataBindings.Add(new Binding("text", dataGridView2.DataSource, "DVT", true, DataSourceUpdateMode.Never));
+            textBox3.DataBindings.Add(new Binding("Text", dataGridView2.DataSource, "SL", true, DataSourceUpdateMode.Never));
+            textBox2.DataBindings.Add(new Binding("Text", dataGridView2.DataSource, "DonGia", true, DataSourceUpdateMode.Never));
+        }
+
+        void LoadEmployeesIntoCombobox(ComboBox cb) // Load tất cả nhân viên lên combobox
+        {
+            cb.DataSource = EmployeesDAO.Instance.GetListEmployees();
+            cb.DisplayMember = "Name";
+        }
+
+        void LoadKhoIntoCombobox(ComboBox cb) // Load tất cả sản phẩm lên combobox
+        {
+            cb.DataSource = KhoDAO.Instance.GetList_Sp();
+            cb.DisplayMember = "tensp";
+        }
+
+        void LoadDvtIntoCombobox(ComboBox cb) // Load tất cả DVT lên combobox
+        {
+            cb.DataSource = KhoDAO.Instance.GetList_Sp();
+            cb.DisplayMember = "dvt";
+        }
+
+        private void button1_Click(object sender, EventArgs e) // Thêm phiếu nhập hàng
+        {
+            DateTime ngaynhap = dateTimePicker1.Value;
+            int idnv = (comboBox4.SelectedItem as Employees).Id;
+
+            if (PhieuNhapDAO.Instance.InsertPhieuNhap(idnv , ngaynhap))
+            {
+                MessageBox.Show("Thêm phiếu nhập thành công");
+                LoadListPhieuNhap();
+
+                if (insertPhieuNhap != null)
+                    insertPhieuNhap(this, new EventArgs());
+            }
+            else
+            {
+                MessageBox.Show("Có lỗi xảy ra");
+            }
+
+        }
+
+        void DeletePhieuNhap(int id) // Xử lý xóa phiếu nhập
+        {
+            if (PhieuNhapDAO.Instance.DeletePhieuNhap(id))
+            {
+                MessageBox.Show("Xóa thành công");
+            }
+            else
+            {
+                MessageBox.Show("Có lỗi xảy ra khi xóa");
+            }
+            LoadListPhieuNhap();
+        }
+
+        #region Event
+        private event EventHandler insertPhieuNhap;
+        public event EventHandler InsertPhieuNhap
+        {
+            add { insertPhieuNhap += value; }
+            remove { insertPhieuNhap -= value; }
+        }
+        private event EventHandler updateChitietphieunhap;
+        public event EventHandler UpdateChitietphieunhap
+        {
+            add { updateChitietphieunhap += value; }
+            remove { updateChitietphieunhap -= value; }
+        }
+        private event EventHandler inserCTtPhieuNhap;
+        public event EventHandler InsertCTPhieuNhap
+        {
+            add { inserCTtPhieuNhap += value; }
+            remove { inserCTtPhieuNhap -= value; }
+        }
+        private event EventHandler deletePhieunhap;
+        public event EventHandler DeletePhieunhap
+        {
+            add { deletePhieunhap += value; }
+            remove { deletePhieunhap -= value; }
+        }
+        #endregion
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (phieunhap.SelectedCells.Count > 0)
+                {
+                    int id = (int)phieunhap.SelectedCells[0].OwningRow.Cells["idnhanvien"].Value;
+
+                    Employees acctype = EmployeesDAO.Instance.GetEmnployeesById(id);
+
+                    comboBox4.SelectedItem = acctype;
+
+                    int index = -1;
+                    int i = 0;
+                    foreach (Employees item in comboBox4.Items)
+                    {
+                        if (item.Id == acctype.Id)
+                        {
+                            index = i;
+                            break;
+                        }
+                        i++;
+                    }
+
+                    comboBox4.SelectedIndex = index;
+                }
+            }
+            catch { }
+        }
+
+        private void button4_Click(object sender, EventArgs e) // Button làm mới
+        {
+            textBox5.Clear();
+            textBox1.Clear();
+            dateTimePicker1.Value = DateTime.Now;
+            comboBox4.ResetText();
+        }
+
+        private void button2_Click(object sender, EventArgs e) // Button xóa phiếu nhập
+        {
+            if (textBox5.Text.Equals(""))
+            {
+                MessageBox.Show("Hãy chọn phiếu nhập");
+            }
+            else
+            {
+                int id = Convert.ToInt32(textBox5.Text);
+                if (CtpnDAO.Instance.Delete_CTPN(id) | PhieuNhapDAO.Instance.DeletePhieuNhap(id))
+                {
+                    MessageBox.Show("Xóa thành công");
+                    LoadListPhieuNhap();
+                    if (deletePhieunhap != null)
+                        deletePhieunhap(this, new EventArgs());
+                }
+                else
+                {
+                    MessageBox.Show("Có lỗi khi xóa");
+                }
+            }
+        }
+
+        private void textBox5_TextChanged(object sender, EventArgs e)
+        {
+            if (textBox5.Text.Equals(""))
+            {
+                int temp = PhieuNhapDAO.Instance.GetMaxId();
+                LoadList_CTPN(temp);
+            }
+            else
+            {
+                int id = Convert.ToInt32(textBox5.Text);
+                LoadList_CTPN(id);
+            }
+            
+        }
+
+        private void button6_Click(object sender, EventArgs e) // Thêm thông tin chi tiết phiếu nhập
+        {
+            if (textBox5.Text.Equals("") || textBox2.Text.Equals("") || textBox3.Text.Equals("") || comboBox3.Text.Equals("") || comboBox2.Text.Equals(""))
+            {
+                MessageBox.Show("Bạn Chưa chọn phiếu nhập hoặc còn bỏ trống thông tin");
+            }
+            else
+            {
+                int mapn = Convert.ToInt32(textBox5.Text);
+                int masp = (comboBox3.SelectedItem as Kho).Masp;
+                int sl = Convert.ToInt32(textBox3.Text);
+                string dvt = comboBox2.Text;
+                int dongia = Convert.ToInt32(textBox2.Text);
+
+                if (CtpnDAO.Instance.Insert_CT_PhieuNhap(mapn, masp, sl, dvt, dongia))
+                {
+                    MessageBox.Show("Thêm thành công");
+                    LoadList_CTPN(mapn);
+
+                    if (inserCTtPhieuNhap != null)
+                        inserCTtPhieuNhap(this, new EventArgs());
+
+                    textBox2.Clear();
+                    textBox3.Clear();
+                    textBox4.Clear();
+                    comboBox2.ResetText();
+                    comboBox3.ResetText();
+                }
+                else
+                {
+                    MessageBox.Show("Có lỗi xảy ra");
+                }
+            }
+        }
+
+        private void button5_Click(object sender, EventArgs e) // Button cập chi tiết phiếu nhập
+        {
+            if (textBox5.Text.Equals("") || textBox2.Text.Equals("") || textBox3.Text.Equals("") || comboBox3.Text.Equals("") || comboBox2.Text.Equals(""))
+            {
+                MessageBox.Show("Hãy chọn phiếu nhập");
+            }
+            else
+            {
+                int mapn = Convert.ToInt32(textBox5.Text);
+                int masp = (comboBox3.SelectedItem as Kho).Masp;
+                int sl = Convert.ToInt32(textBox3.Text);
+                string dvt = comboBox2.Text;
+                int dongia = Convert.ToInt32(textBox2.Text);
+
+                if (CtpnDAO.Instance.UpdateCTHD(mapn, masp, sl, dvt, dongia))
+                {
+                    MessageBox.Show("Cập nhật thành công");
+                    LoadList_CTPN(mapn);
+                    if (updateChitietphieunhap != null)
+                        updateChitietphieunhap(this, new EventArgs());
+                }
+                else
+                {
+                    MessageBox.Show("Có lỗi");
+                }
+            }
+        }
+
+        private void textBox4_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (dataGridView2.SelectedCells.Count > 0)
+                {
+                    int id = (int)dataGridView2.SelectedCells[0].OwningRow.Cells["Ma_SP"].Value;
+
+                    Kho acctype = KhoDAO.Instance.GetTensp(id);
+
+                    comboBox3.SelectedItem = acctype;
+
+                    int index = -1;
+                    int i = 0;
+                    foreach (Kho item in comboBox3.Items)
+                    {
+                        if (item.Masp == acctype.Masp)
+                        {
+                            index = i;
+                            break;
+                        }
+                        i++;
+                    }
+
+                    comboBox3.SelectedIndex = index;
+                }
+            }
+            catch { }
+        }
+
+       
+    }
+}

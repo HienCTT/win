@@ -1,0 +1,44 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace QuanLyQuanMi
+{
+    public partial class freport2 : Form
+    {
+        public freport2(int mapn)
+        {
+            InitializeComponent();
+            this.mapn = mapn;
+        }
+
+        private int mapn;
+
+        public int Mapn
+        {
+            get
+            {
+                return mapn;
+            }
+
+            set
+            {
+                mapn = value;
+            }
+        }
+
+        private void freport2_Load(object sender, EventArgs e)
+        {
+            // TODO: This line of code loads data into the 'QuanLyMiKhoDataSet1.USP_GetListChitietphieunhapReport' table. You can move, or remove it, as needed.
+            this.USP_GetListChitietphieunhapReportTableAdapter.Fill(this.QuanLyMiKhoDataSet1.USP_GetListChitietphieunhapReport,mapn);
+
+            this.reportViewer1.RefreshReport();
+        }
+    }
+}

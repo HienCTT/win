@@ -1,0 +1,116 @@
+﻿namespace QuanLyQuanMi
+{
+    partial class freport2
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.components = new System.ComponentModel.Container();
+            Microsoft.Reporting.WinForms.ReportDataSource reportDataSource1 = new Microsoft.Reporting.WinForms.ReportDataSource();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(freport2));
+            this.USP_GetListChitietphieunhapReportBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.QuanLyMiKhoDataSet1 = new QuanLyQuanMi.QuanLyMiKhoDataSet1();
+            this.USP_GetListBillDateForReportBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.QuanLyMiKhoDataSet = new QuanLyQuanMi.QuanLyMiKhoDataSet();
+            this.reportViewer1 = new Microsoft.Reporting.WinForms.ReportViewer();
+            this.USP_GetListBillDateForReportTableAdapter = new QuanLyQuanMi.QuanLyMiKhoDataSetTableAdapters.USP_GetListBillDateForReportTableAdapter();
+            this.USP_GetListChitietphieunhapReportTableAdapter = new QuanLyQuanMi.QuanLyMiKhoDataSet1TableAdapters.USP_GetListChitietphieunhapReportTableAdapter();
+            ((System.ComponentModel.ISupportInitialize)(this.USP_GetListChitietphieunhapReportBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QuanLyMiKhoDataSet1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.USP_GetListBillDateForReportBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QuanLyMiKhoDataSet)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // USP_GetListChitietphieunhapReportBindingSource
+            // 
+            this.USP_GetListChitietphieunhapReportBindingSource.DataMember = "USP_GetListChitietphieunhapReport";
+            this.USP_GetListChitietphieunhapReportBindingSource.DataSource = this.QuanLyMiKhoDataSet1;
+            // 
+            // QuanLyMiKhoDataSet1
+            // 
+            this.QuanLyMiKhoDataSet1.DataSetName = "QuanLyMiKhoDataSet1";
+            this.QuanLyMiKhoDataSet1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // USP_GetListBillDateForReportBindingSource
+            // 
+            this.USP_GetListBillDateForReportBindingSource.DataMember = "USP_GetListBillDateForReport";
+            this.USP_GetListBillDateForReportBindingSource.DataSource = this.QuanLyMiKhoDataSet;
+            // 
+            // QuanLyMiKhoDataSet
+            // 
+            this.QuanLyMiKhoDataSet.DataSetName = "QuanLyMiKhoDataSet";
+            this.QuanLyMiKhoDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // reportViewer1
+            // 
+            this.reportViewer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            reportDataSource1.Name = "DataSet1";
+            reportDataSource1.Value = this.USP_GetListChitietphieunhapReportBindingSource;
+            this.reportViewer1.LocalReport.DataSources.Add(reportDataSource1);
+            this.reportViewer1.LocalReport.ReportEmbeddedResource = "QuanLyQuanMi.Report8.rdlc";
+            this.reportViewer1.Location = new System.Drawing.Point(0, 0);
+            this.reportViewer1.Name = "reportViewer1";
+            this.reportViewer1.Size = new System.Drawing.Size(960, 657);
+            this.reportViewer1.TabIndex = 0;
+            // 
+            // USP_GetListBillDateForReportTableAdapter
+            // 
+            this.USP_GetListBillDateForReportTableAdapter.ClearBeforeFill = true;
+            // 
+            // USP_GetListChitietphieunhapReportTableAdapter
+            // 
+            this.USP_GetListChitietphieunhapReportTableAdapter.ClearBeforeFill = true;
+            // 
+            // freport2
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(960, 657);
+            this.Controls.Add(this.reportViewer1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "freport2";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Phiếu Nhập ";
+            this.Load += new System.EventHandler(this.freport2_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.USP_GetListChitietphieunhapReportBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QuanLyMiKhoDataSet1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.USP_GetListBillDateForReportBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QuanLyMiKhoDataSet)).EndInit();
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private Microsoft.Reporting.WinForms.ReportViewer reportViewer1;
+        private System.Windows.Forms.BindingSource USP_GetListChitietphieunhapReportBindingSource;
+        private QuanLyMiKhoDataSet1 QuanLyMiKhoDataSet1;
+        private QuanLyMiKhoDataSet1TableAdapters.USP_GetListChitietphieunhapReportTableAdapter USP_GetListChitietphieunhapReportTableAdapter;
+        private System.Windows.Forms.BindingSource USP_GetListBillDateForReportBindingSource;
+        private QuanLyMiKhoDataSet QuanLyMiKhoDataSet;
+        private QuanLyMiKhoDataSetTableAdapters.USP_GetListBillDateForReportTableAdapter USP_GetListBillDateForReportTableAdapter;
+    }
+}
